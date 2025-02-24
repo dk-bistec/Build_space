@@ -132,13 +132,69 @@ def generate_blog(topic):
 
 # Interface
 
-iface = gr.Interface(
-    fn=generate_blog, 
-    inputs=gr.Textbox(lines=3, label="Enter a Topic"),
-    outputs=gr.Textbox(lines=30, label="Blog Post"),
-    title="Blog Post Generator",
-    description="Generate a blog post on a topic of your choice.",
-    theme="compact"
-)
+# ... (keep all the previous code unchanged)
 
-iface.launch()
+# Interface
+
+def user_interface():
+    with gr.Blocks(theme=gr.themes.Soft()) as demo:
+        gr.Markdown(
+        """
+        # 🚀 AI-Powered Blog Post Generator
+        
+        Welcome to the future of content creation! This tool uses advanced AI to generate 
+        high-quality blog posts on any topic you choose. Simply enter your desired topic, 
+        and watch as our AI team of planners, writers, and editors craft a compelling article for you.
+        
+        ## How it works:
+        1. **Plan**: Our AI planner outlines the key points and structure.
+        2. **Write**: The AI writer creates engaging content based on the plan.
+        3. **Edit**: Our AI editor polishes the article for grammar and style.
+        
+        Give it a try and revolutionize your content creation process!
+        """
+        )
+        
+        with gr.Row():
+            with gr.Column(scale=2):
+                topic_input = gr.Textbox(
+                    lines=3, 
+                    label="Enter Your Blog Topic",
+                    placeholder="e.g., The Future of Artificial Intelligence in Healthcare"
+                )
+                generate_button = gr.Button("Generate Blog Post", variant="primary")
+            
+            with gr.Column(scale=1):
+                gr.Markdown(
+                """
+                ### Tips for best results:
+                - Be specific with your topic
+                - Include key aspects you want covered
+                - Consider your target audience
+                """
+                )
+        
+        with gr.Row():
+            output = gr.TextArea(label="Generated Blog Post", lines=30, max_lines=50)
+        
+        generate_button.click(
+            generate_blog, 
+            inputs=topic_input, 
+            outputs=output,
+            show_progress="full"
+        )
+        
+        gr.Markdown(
+        """
+        ### About this tool
+        This blog post generator uses CrewAI and GPT-3.5-turbo to create content. 
+        While the output is high-quality, always review and fact-check the generated content before publishing.
+        """
+        )
+    
+    return demo
+
+# Launch the interface
+if __name__ == "__main__":
+    demo = user_interface()
+    demo.launch()
