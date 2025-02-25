@@ -15,6 +15,9 @@ os.environ["OPENAI_MODEL_NAME"] = 'gpt-3.5-turbo'
 # tools
 serper_tool = SerperDevTool()
 scraper_tool = ScrapeWebsiteTool()
+LinkedIn_tool = ScrapeWebsiteTool(
+    website_url="https://www.linkedin.com/feed/"
+)
 
 # Define Agents
 planner = Agent(
@@ -27,8 +30,8 @@ planner = Agent(
               "and make informed decisions. "
               "Your work is the basis for "
               "the Content Writer to write an article on this topic.",
-    tools=[serper_tool, scraper_tool],
-    allow_delegation=False,
+    tools=[serper_tool, scraper_tool,LinkedIn_tool],
+    allow_delegation=True,
     verbose=True
 )
 
@@ -50,8 +53,8 @@ writer = Agent(
               "You acknowledge in your opinion piece "
               "when your statements are opinions "
               "as opposed to objective statements.",
-    tools=[serper_tool, scraper_tool],
-    allow_delegation=False,
+    tools=[serper_tool, scraper_tool, LinkedIn_tool],
+    allow_delegation=True,
     verbose=True
 )
 
@@ -131,11 +134,6 @@ def generate_blog(topic):
     return result.raw
 
 # Interface
-
-# ... (keep all the previous code unchanged)
-
-# Interface
-
 def user_interface():
     with gr.Blocks(theme=gr.themes.Soft()) as demo:
         gr.Markdown(
@@ -175,7 +173,7 @@ def user_interface():
                 )
         
         with gr.Row():
-            output = gr.TextArea(label="Generated Blog Post", lines=30, max_lines=50)
+            output = gr.TextArea(label="Generated Blog Post", lines=30, max_lines=70)
         
         generate_button.click(
             generate_blog, 

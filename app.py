@@ -15,6 +15,9 @@ os.environ["OPENAI_MODEL_NAME"] = 'gpt-3.5-turbo'
 # tools
 serper_tool = SerperDevTool()
 scraper_tool = ScrapeWebsiteTool()
+Linkedin_tool = ScrapeWebsiteTool(
+    website_url="https://www.linkedin.com/feed/",
+)
 
 # Define Agents
 planner = Agent(
@@ -27,8 +30,8 @@ planner = Agent(
               "and make informed decisions. "
               "Your work is the basis for "
               "the Content Writer to write an article on this topic.",
-    tools=[serper_tool, scraper_tool],
-    allow_delegation=False,
+    tools=[serper_tool, scraper_tool, Linkedin_tool],
+    allow_delegation=True,
     verbose=True
 )
 
@@ -50,8 +53,8 @@ writer = Agent(
               "You acknowledge in your opinion piece "
               "when your statements are opinions "
               "as opposed to objective statements.",
-    tools=[serper_tool, scraper_tool],
-    allow_delegation=False,
+    tools=[serper_tool, scraper_tool,Linkedin_tool],
+    allow_delegation=True,
     verbose=True
 )
 
