@@ -1,6 +1,6 @@
 ## The one with light wieght:  
 
-[https://huggingface.co/spaces/dkface/groc_space](https://huggingface.co/spaces/dkface/kdu-test)
+(https://huggingface.co/spaces/dkface/kdu-test)
 
 ## The one with weight
 
