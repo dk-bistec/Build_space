@@ -71,7 +71,7 @@ editor = Agent(
               "and also avoids major controversial topics "
               "or opinions when possible.",
     tools=[serper_tool, scraper_tool],
-    allow_delegation=False,
+    allow_delegation=True,
     verbose=True
 )
 
